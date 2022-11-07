@@ -5,6 +5,7 @@ import Products from "../components/pages/Products"
 import App from "../components/templates/App"
 import Login from "../components/pages/Login"
 import Register from "../components/pages/Register"
+import Form from "../components/pages/admin/products/Form"
 
 const router = createBrowserRouter([
   {
@@ -19,18 +20,21 @@ const router = createBrowserRouter([
       {
         path: "/productos",
         element: <Products />,
-      }
-    ]
+      },
+    ],
   },
   {
     path: "/login",
-    element: <Login />
+    element: <Login />,
   },
   {
     path: "/registro",
-    element: <Register />
-  }
-  
+    element: <Register />,
+  },
+  {
+    path: "/admin/productos/crear",
+    element: <Form />,
+  },
 ])
 
 export default router
