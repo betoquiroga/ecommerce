@@ -1,4 +1,4 @@
-const LoginTemplate = ({ children }) => {
+const LoginTemplate = ({ children, title }) => {
   return (
     <section className="h-full gradient-form bg-gray-200 md:h-screen">
       <div className="container m-auto py-12 px-6 h-full">
@@ -15,7 +15,7 @@ const LoginTemplate = ({ children }) => {
                         alt="logo"
                       />
                       <h4 className="text-xl font-semibold mt-1 mb-8 pb-1">
-                        Inicar sesión
+                        { title }
                       </h4>
                     </div>
                     { children }

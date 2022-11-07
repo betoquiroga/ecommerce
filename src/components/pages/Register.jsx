@@ -30,7 +30,7 @@ const Register = () => {
   }
 
   return (
-    <LoginTemplate>
+    <LoginTemplate title="Regístrate">
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <input

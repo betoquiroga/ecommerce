@@ -30,7 +30,7 @@ const Login = () => {
   }
 
   return (
-    <LoginTemplate>
+    <LoginTemplate title="Iniciar sesión">
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <input
