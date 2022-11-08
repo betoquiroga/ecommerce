@@ -1,12 +1,15 @@
 import axios from "axios"
+import { useContext } from "react"
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { API_URL } from "../../constants/env"
+import { UserContext } from "../../context/UserContext"
 import { setToken } from "../../helpers/auth"
 import LoginTemplate from "../templates/LoginTemplate"
 
 const Login = () => {
   const nav = useNavigate()
+  const { setUserData } = useContext(UserContext)
 
   const [error, setError] = useState()
 
@@ -22,6 +25,7 @@ const Login = () => {
       .post(`${API_URL}/public/login`, data)
       .then((resp) => {
         setToken(resp.data.data.token)
+        setUserData(resp.data.data.user)
         nav("/")
       })
       .catch((err) => {

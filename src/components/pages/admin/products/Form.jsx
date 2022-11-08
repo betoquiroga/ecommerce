@@ -1,8 +1,9 @@
 import axios from "axios"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { API_URL } from "../../../../constants/env"
 import { token } from "../../../../helpers/auth"
+import Loader from "../../../atoms/Loader"
 
 const Form = () => {
   const nav = useNavigate()
@@ -10,6 +11,28 @@ const Form = () => {
 
   const [hasDelivery, setHasDelivery] = useState(false)
   const [isNew, setIsNew] = useState(false)
+  const [product, setProduct] = useState()
+  const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    if (params?.id) {
+      setLoading(true)
+      axios
+        .get(`${API_URL}/public/products/${params.id}`)
+        .then((data) => {
+          setProduct(data.data.data)
+        })
+        .finally(() => {
+          setLoading(false)
+        })
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!product) return
+    setIsNew(product.features.stats.isNew)
+    setHasDelivery(product.features.stats.hasDelivery)
+  }, [product])
 
   const [error, setError] = useState()
   const handleSubmit = (e) => {
@@ -35,58 +58,115 @@ const Form = () => {
         },
       },
     }
-    axios
-      .post(`${API_URL}/admin/products`, body, {
-        headers: {
-          Authorization: `Bearer ${token()}`,
-        },
-      })
-      .then(() => {
-        nav("/admin/productos")
-      })
-      .catch((err) => setError(err))
+
+    if (!params.id) {
+      axios
+        .post(`${API_URL}/admin/products`, body, {
+          headers: {
+            Authorization: `Bearer ${token()}`,
+          },
+        })
+        .then(() => {
+          nav("/admin/productos")
+        })
+        .catch((err) => setError(err))
+    } else {
+      axios
+        .put(`${API_URL}/admin/products/${params.id}`, body, {
+          headers: {
+            Authorization: `Bearer ${token()}`,
+          },
+        })
+        .then(() => {
+          nav("/admin/productos")
+        })
+        .catch((err) => setError(err))
+    }
   }
+
+  if (loading) return <Loader />
 
   return (
     <div className="pt-16 max-w-256 m-auto">
       <section className="pt-10">
         <h1 className="text-4xl mb-6">
-          {`${params.productID ? "Editar" : "Crear"}`} producto
+          {`${params.iD ? "Editar" : "Crear"}`} producto
         </h1>
         <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-2 gap-6 mb-6">
             <div>
               <label htmlFor="productName">Nombre del producto</label>
-              <input type="text" name="productName" required />
+              <input
+                type="text"
+                name="productName"
+                defaultValue={product && product.product_name}
+                required
+              />
             </div>
             <div>
               <label htmlFor="price">Precio</label>
-              <input type="number" name="price" required />
+              <input
+                type="number"
+                name="price"
+                required
+                defaultValue={product && product.price}
+              />
             </div>
             <div>
               <label htmlFor="price">Vendidos</label>
-              <input type="number" name="sold" step="1" required />
+              <input
+                type="number"
+                name="sold"
+                step="1"
+                required
+                defaultValue={product && product.features.stats.sold}
+              />
             </div>
             <div>
               <label htmlFor="image1">Imagen 1</label>
-              <input type="text" name="image1" required />
+              <input
+                type="text"
+                name="image1"
+                required
+                defaultValue={product && product.images[0]}
+              />
             </div>
             <div>
               <label htmlFor="color">Marca</label>
-              <input type="text" name="brand" required />
+              <input
+                type="text"
+                name="brand"
+                required
+                defaultValue={product && product.features.details.brand}
+              />
             </div>
             <div>
               <label htmlFor="color">Modelo</label>
-              <input type="text" name="model" required />
+              <input
+                type="text"
+                name="model"
+                required
+                defaultValue={product && product.features.details.model}
+              />
             </div>
             <div>
               <label htmlFor="color">Color</label>
-              <input type="text" name="color" required />
+              <input
+                type="text"
+                name="color"
+                required
+                defaultValue={product && product.features.details.color}
+              />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label htmlFor="color">Año</label>
-                <input type="text" name="year" required />
+                <input
+                  type="text"
+                  name="year"
+                  required
+                  defaultValue={product && product.features.details.year}
+                />
               </div>
               <div>
                 <p htmlFor="delivery">Rating</p>
@@ -94,6 +174,7 @@ const Form = () => {
                   type="number"
                   name="rating"
                   required
+                  defaultValue={product && product.features.stats.rating}
                   min="1"
                   max="5"
                   step="1"
@@ -102,11 +183,22 @@ const Form = () => {
             </div>
             <div>
               <label htmlFor="description">Description</label>
-              <textarea type="text" name="description" required />
+              <textarea
+                type="text"
+                name="description"
+                required
+                defaultValue={product && product.description}
+              />
             </div>
             <div className="flex flex-col">
               <label htmlFor="category">Categoría</label>
-              <select name="category" className="outline-none h-9 rounded">
+              <select
+                name="category"
+                className="outline-none h-9 rounded"
+                defaultValue={
+                  product ? product.features.details.category : "Otros"
+                }
+              >
                 <option value="Otros" disabled selected>
                   Selecciona una categoría
                 </option>
