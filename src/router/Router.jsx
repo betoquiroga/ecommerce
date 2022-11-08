@@ -6,6 +6,7 @@ import App from "../components/templates/App"
 import Login from "../components/pages/Login"
 import Register from "../components/pages/Register"
 import Form from "../components/pages/admin/products/Form"
+import Table from "../components/pages/admin/products/Table"
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
   {
     path: "/registro",
     element: <Register />,
+  },
+  {
+    path: "/admin/productos/",
+    element: <Table />,
   },
   {
     path: "/admin/productos/crear",

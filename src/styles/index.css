@@ -35,3 +35,21 @@ button,
 		transform: rotate(2turn);
 	}
 }
+
+/* Tablas */
+table {
+	@apply w-full text-sm text-left;
+}
+
+thead {
+	@apply uppercase bg-sky-700 text-white;
+}
+
+th,
+td {
+	@apply px-2 py-3;
+}
+
+tr:nth-child(even) {
+	@apply bg-gray-100;
+}

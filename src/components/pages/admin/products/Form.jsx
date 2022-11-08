@@ -2,6 +2,7 @@ import axios from "axios"
 import { useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { API_URL } from "../../../../constants/env"
+import { token } from "../../../../helpers/auth"
 
 const Form = () => {
   const nav = useNavigate()
@@ -34,30 +35,16 @@ const Form = () => {
         },
       },
     }
-
-    if (!params.productID) {
-      axios
-        .post(`${API_URL}/admin/products`, body, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("tokenEDcommerce")}`,
-          },
-        })
-        .then(() => {
-          nav("/admin/productos")
-        })
-        .catch((err) => setError(err))
-    } else {
-      axios
-        .put(`${API_URL}/admin/products/${params.productID}`, body, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("tokenEDcommerce")}`,
-          },
-        })
-        .then(() => {
-          nav("/admin/productos")
-        })
-        .catch((err) => setError(err))
-    }
+    axios
+      .post(`${API_URL}/admin/products`, body, {
+        headers: {
+          Authorization: `Bearer ${token()}`,
+        },
+      })
+      .then(() => {
+        nav("/admin/productos")
+      })
+      .catch((err) => setError(err))
   }
 
   return (
