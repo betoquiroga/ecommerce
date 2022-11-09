@@ -12,7 +12,6 @@ const useFetch = (endpoint, headers = {}) => {
       .get(`${API_URL}/${endpoint}`, headers)
       .then((resp) => {
         setData(resp.data.data)
-        console.log(resp.data.data)
       })
       .catch((err) => {
         setError(err)

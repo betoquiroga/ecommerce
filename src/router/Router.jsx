@@ -9,6 +9,8 @@ import Form from "../components/pages/admin/products/Form"
 import Table from "../components/pages/admin/products/Table"
 import Admin from "../components/templates/Admin"
 import Product from "../components/pages/Product"
+import Cart from "../components/pages/Cart"
+import Payment from "../components/pages/Payment"
 
 const router = createBrowserRouter([
   {
@@ -27,6 +29,14 @@ const router = createBrowserRouter([
       {
         path: "/productos/:id",
         element: <Product />,
+      },
+      {
+        path: "/carrito",
+        element: <Cart />,
+      },
+      {
+        path: "/pago-exitoso",
+        element: <Payment />,
       },
     ],
   },

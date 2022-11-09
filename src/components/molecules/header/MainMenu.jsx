@@ -1,11 +1,13 @@
 import { useContext } from "react"
 import { Link, useNavigate } from "react-router-dom"
+import { CartContext } from "../../../context/CartContext"
 import { UserContext } from "../../../context/UserContext"
 import { deleteToken, token } from "../../../helpers/auth"
 
 const MainMenu = () => {
   const nav = useNavigate()
   const { userData, setUserData } = useContext(UserContext)
+  const { state } = useContext(CartContext)
 
   const handleSession = () => {
     deleteToken()
@@ -26,7 +28,11 @@ const MainMenu = () => {
             Productos
           </Link>
         </li>
-
+        <li className="flex items-center">
+          <Link className="menu-item" to="/carrito">
+            Carrito ({state.cart.length})
+          </Link>
+        </li>
         {!token() ? (
           <li className="flex items-center">
             <Link className="menu-item" to="/login">

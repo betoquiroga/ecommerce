@@ -87,7 +87,7 @@ const Form = () => {
   if (loading) return <Loader />
 
   return (
-    <div className="pt-16 max-w-256 m-auto">
+    <div className="max-w-256 m-auto">
       <section className="pt-10">
         <h1 className="text-4xl mb-6">
           {`${params.iD ? "Editar" : "Crear"}`} producto
