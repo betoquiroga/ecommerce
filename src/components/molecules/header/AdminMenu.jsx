@@ -10,6 +10,11 @@ const AdminMenu = () => {
           </Link>
         </li>
         <li className="flex items-center">
+          <Link className="menu-item" to="/admin/ventas">
+            Ventas
+          </Link>
+        </li>
+        <li className="flex items-center">
           <Link className="menu-item" to="/">
             Volver a la app
           </Link>
